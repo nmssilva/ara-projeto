@@ -1,5 +1,10 @@
 !London
 conf t
+router bgp 20000
+neighbor 4.20.20.2 remote-as 9000
+neighbor 4.20.20.10 remote-as 30000
+neighbor 4.20.20.6 remote-as 9000
+network 200.100.1.0 mask 255.255.255.0||TODO
 int f1/1
 ip add 200.100.1.1 255.255.255.0
 ipv6 add 2100:200:100::1/64
@@ -34,6 +39,9 @@ write mem
 
 !Sintra
 conf t
+router bgp 30000
+neighbor 4.20.20.9 remote-as 20000
+neighbor 4.20.20.14 remote-as 9000
 int f1/0
 ip add 210.0.1.1 255.255.255.0
 ipv6 add 2001:210:0::1/64
@@ -55,6 +63,9 @@ write mem
 ---------------------------------------------------------------------
 
 !Porto
+router bgp 9000
+neighbor 4.20.20.1 remote-as 20000
+neighbor 10.0.0.10 remote-as 65300
 int f1/0
 !BGP
 ip add 10.0.0.9 255.255.255.252
@@ -78,6 +89,10 @@ write mem
 ---------------------------------------------------------------------
 
 !Lisboa
+conf t
+router bgp 9000
+neighbor 4.20.20.5 remote-as 20000
+neighbor 4.20.20.13 remote-as 30000
 int f1/0
 ip ospf 1 area 0
 ip add 192.172.1.1 255.255.255.0
@@ -110,6 +125,8 @@ write mem
 ---------------------------------------------------------------------
 
 !EmpC
+router bgp 65300
+neighbor 10.0.0.9 remote-as 9000
 int f0/0
 !BGP
 ip add 10.0.0.10 255.255.255.252
