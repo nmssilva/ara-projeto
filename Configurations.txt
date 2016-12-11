@@ -35,6 +35,28 @@ no shut
 end
 write mem
 
+conf t !OSPF
+router ospf 3
+redistribute bgp 20000
+int f0/0
+ip ospf 3 area 0
+int f0/1
+ip ospf 3 area 0
+int f1/0
+ip ospf 3 area 0
+int f1/1
+ip ospf 3 area 0
+int f2/0
+ip ospf 3 area 0
+int f2/1 !internet core no ospf
+no ip ospf 3 area 0
+int lo0
+ip ospf 3 area 0
+end 
+wr mem
+
+
+
 ---------------------------------------------------------------------
 
 !Sintra
@@ -60,6 +82,28 @@ no shut
 end
 write mem
 
+conf t !OSPF
+router ospf 2
+redistribute bgp 30000
+int f0/0
+ip ospf 2 area 0
+int f0/1
+ip ospf 2 area 0
+int f1/0
+ip ospf 2 area 0
+int f1/1
+ip ospf 2 area 0
+int f2/0
+ip ospf 2 area 0
+int f2/1
+ip ospf 2 area 0
+int lo0
+ip ospf 2 area 0
+end 
+wr mem
+
+
+
 ---------------------------------------------------------------------
 
 !Porto
@@ -83,6 +127,27 @@ no shut
 int lo0
 ip add 10.0.8.2 255.255.255.255
 no shut
+end
+write mem
+
+!OSPF redistribute
+conf t
+router ospf 1
+distance 220
+
+
+
+! BGP non transit ISP X e rede 10.0.0.0 nao passa para fora
+conf t
+ip as-path access-list 1 permit ^$ 
+ip as-path access-list 1 deny 10.0.0.0
+route-map routes-out
+match as-path 1
+router bgp 9000
+address-family ipv4 unicast
+neighbor 4.20.20.1 route-map routes-out out
+router ospf 1
+redistribute bgp 9000
 end
 write mem
 
@@ -121,6 +186,23 @@ ip add 10.0.8.4 255.255.255.255
 no shut
 end
 write mem
+
+! BGP non transit ISP X
+conf t
+ip as-path access-list 1 permit ^$ 
+ip as-path access-list 1 deny 10.0.0.0
+route-map routes-out
+match as-path 1
+router bgp 9000
+address-family ipv4 unicast
+neighbor 4.20.20.5 route-map routes-out out
+neighbor 4.20.20.13 route-map routes-out out
+router ospf 1
+redistribute bgp 9000
+end
+write mem
+
+
 
 ---------------------------------------------------------------------
 
