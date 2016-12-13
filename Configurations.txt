@@ -4,7 +4,8 @@ router bgp 20000
 neighbor 4.20.20.2 remote-as 9000
 neighbor 4.20.20.10 remote-as 30000
 neighbor 4.20.20.6 remote-as 9000
-network 200.100.1.0 mask 255.255.255.0||TODO
+network 200.100.1.0
+network 200.200.1.0
 int f1/1
 ip add 200.100.1.1 255.255.255.0
 ipv6 add 2100:200:100::1/64
@@ -35,27 +36,6 @@ no shut
 end
 write mem
 
-conf t !OSPF
-router ospf 3
-redistribute bgp 20000
-int f0/0
-ip ospf 3 area 0
-int f0/1
-ip ospf 3 area 0
-int f1/0
-ip ospf 3 area 0
-int f1/1
-ip ospf 3 area 0
-int f2/0
-ip ospf 3 area 0
-int f2/1 !internet core no ospf
-no ip ospf 3 area 0
-int lo0
-ip ospf 3 area 0
-end 
-wr mem
-
-
 
 ---------------------------------------------------------------------
 
@@ -64,6 +44,7 @@ conf t
 router bgp 30000
 neighbor 4.20.20.9 remote-as 20000
 neighbor 4.20.20.14 remote-as 9000
+network 210.0.1.0
 int f1/0
 ip add 210.0.1.1 255.255.255.0
 ipv6 add 2001:210:0::1/64
@@ -81,26 +62,6 @@ ip add 10.0.8.3 255.255.255.255
 no shut
 end
 write mem
-
-conf t !OSPF
-router ospf 2
-redistribute bgp 30000
-int f0/0
-ip ospf 2 area 0
-int f0/1
-ip ospf 2 area 0
-int f1/0
-ip ospf 2 area 0
-int f1/1
-ip ospf 2 area 0
-int f2/0
-ip ospf 2 area 0
-int f2/1
-ip ospf 2 area 0
-int lo0
-ip ospf 2 area 0
-end 
-wr mem
 
 
 
@@ -130,6 +91,7 @@ no shut
 end
 write mem
 
+
 !OSPF redistribute
 conf t
 router ospf 1
@@ -137,19 +99,28 @@ distance 220
 
 
 
-! BGP non transit ISP X e rede 10.0.0.0 nao passa para fora
+! BGP non transit ISP X
 conf t
 ip as-path access-list 1 permit ^$ 
-ip as-path access-list 1 deny 10.0.0.0
 route-map routes-out
 match as-path 1
 router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.1 route-map routes-out out
-router ospf 1
-redistribute bgp 9000
 end
 write mem
+
+! deny private networks
+conf t
+ip access-list standard fOut-priv-default
+10 deny 10.0.0.0 0.0.0.255
+100 permit any
+router bgp 9000
+address-family ipv4 unicast
+neighbor 4.20.20.1 distribute-list fOut-priv-default out
+end
+wr mem
+
 
 ---------------------------------------------------------------------
 
@@ -187,6 +158,7 @@ no shut
 end
 write mem
 
+
 ! BGP non transit ISP X
 conf t
 ip as-path access-list 1 permit ^$ 
@@ -201,6 +173,19 @@ router ospf 1
 redistribute bgp 9000
 end
 write mem
+
+
+
+conf t
+ip access-list standard fOut-priv-default
+10 deny 10.0.0.0 0.0.0.255
+100 permit any
+router bgp 9000
+address-family ipv4 unicast
+neighbor 4.20.20.5 distribute-list fOut-priv-default out
+neighbor 4.20.20.13 distribute-list fOut-priv-default out
+end
+wr mem
 
 
 
