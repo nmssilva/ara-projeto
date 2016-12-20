@@ -203,3 +203,6 @@
 /dynamips_i7_stdout.txt
 /dynamips_i8_stdout.txt
 /dynamips_i9_stdout.txt
+/c7200_i21_iomem
+/c7200_i22_iomem
+/c7200_i25_iomem

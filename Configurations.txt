@@ -7,10 +7,12 @@ neighbor 4.20.20.6 remote-as 9000
 network 200.100.1.0
 network 200.200.1.0
 int f1/1
+ip ospf 2 area 0
 ip add 200.100.1.1 255.255.255.0
 ipv6 add 2100:200:100::1/64
 no shut
 int f2/0
+ip ospf 2 area 0
 ip add 200.200.1.1 255.255.255.0
 ipv6 add 2100:200:200::1/64
 no shut
@@ -27,6 +29,7 @@ ip add 4.20.20.9 255.255.255.252
 ipv6 add 2001:420:8::9/64
 no shut
 int f2/1
+ip ospf 2 area 0
 ip add 6.6.6.1 255.255.255.0
 ipv6 add 666:666:666::6/64
 no shut
@@ -35,6 +38,10 @@ ip add 10.0.8.1 255.255.255.255
 no shut
 end
 write mem
+
+!Redistribute ospf
+router bgp 20000
+redistribute ospf 2
 
 
 ---------------------------------------------------------------------
@@ -46,6 +53,7 @@ neighbor 4.20.20.9 remote-as 20000
 neighbor 4.20.20.14 remote-as 9000
 network 210.0.1.0
 int f1/0
+ip ospf 3 area 0
 ip add 210.0.1.1 255.255.255.0
 ipv6 add 2001:210:0::1/64
 no shut
@@ -62,6 +70,11 @@ ip add 10.0.8.3 255.255.255.255
 no shut
 end
 write mem
+
+!Redistribute ospf
+router bgp 30000
+redistribute ospf 3
+
 
 
 
@@ -94,6 +107,8 @@ write mem
 
 !OSPF redistribute
 conf t
+router bgp 9000
+redistribute ospf 1
 router ospf 1
 distance 220
 
@@ -162,19 +177,21 @@ write mem
 ! BGP non transit ISP X
 conf t
 ip as-path access-list 1 permit ^$ 
-ip as-path access-list 1 deny 10.0.0.0
 route-map routes-out
 match as-path 1
 router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.5 route-map routes-out out
 neighbor 4.20.20.13 route-map routes-out out
-router ospf 1
-redistribute bgp 9000
 end
 write mem
 
-
+!OSPF redistribute
+conf t
+router bgp 9000
+redistribute ospf 1
+router ospf 1
+distance 220
 
 conf t
 ip access-list standard fOut-priv-default
