@@ -69,6 +69,7 @@ write mem
 router bgp 9000
 neighbor 4.20.20.1 remote-as 20000
 neighbor 10.0.0.10 remote-as 65300
+!network 140.1.1.0 TODO
 int f1/0
 !BGP
 ip add 10.0.0.9 255.255.255.252
@@ -98,7 +99,8 @@ router ospf 1
 default-information originate always
 distance 220
 
-
+!netS1 traffic
+ip route 210.0.1.0 255.255.255.0 10.0.16.2
 
 ! BGP non transit ISP X
 conf t
