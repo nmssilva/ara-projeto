@@ -66,9 +66,13 @@ write mem
 ---------------------------------------------------------------------
 
 !Porto
+conf t
 router bgp 9000
+bgp default local-preference 200
 neighbor 4.20.20.1 remote-as 20000
 neighbor 10.0.0.10 remote-as 65300
+neighbor 10.0.16.3 remote-as 9000 !Aveiro
+neighbor 10.0.16.2 remote-as 9000 !Lisboa
 !network 140.1.1.0 TODO
 int f1/0
 !BGP
@@ -88,8 +92,6 @@ int lo0
 ip add 10.0.8.2 255.255.255.255
 no shut
 end
-write mem
-
 
 !OSPF redistribute
 conf t
@@ -111,7 +113,6 @@ router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.1 route-map routes-out out
 end
-write mem
 
 ! deny private networks
 conf t
@@ -122,8 +123,19 @@ router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.1 distribute-list fOut-priv-default out
 end
-wr mem
 
+!L2 traffic
+conf t
+ip prefix-list PL-L2-TRAFFIC seq 5 permit 200.200.1.0/24
+route-map RM-L2-TRAFFIC permit 5
+match ip address prefix-list PL-L2-TRAFFIC
+set local-preference 20
+exit
+router bgp 9000
+address-family ipv4 unicast
+neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
+end
+wr mem
 
 ---------------------------------------------------------------------
 
@@ -132,6 +144,9 @@ conf t
 router bgp 9000
 neighbor 4.20.20.5 remote-as 20000
 neighbor 4.20.20.13 remote-as 30000
+neighbor 10.0.0.14 remote-as 9000 !Oeiras
+neighbor 10.0.16.3 remote-as 9000 !Aveiro
+neighbor 10.0.16.1 remote-as 9000 !Porto
 int f1/0
 ip ospf 1 area 0
 ip add 192.172.1.1 255.255.255.0
@@ -191,6 +206,20 @@ address-family ipv4 unicast
 neighbor 4.20.20.5 distribute-list fOut-priv-default out
 neighbor 4.20.20.13 distribute-list fOut-priv-default out
 end
+
+!L2 traffic
+conf t
+ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
+ip prefix-list PL-L2-TRAFFIC seq 10 permit 210.0.1.0/24
+route-map RM-L2-TRAFFIC permit 10
+match ip address prefix-list PL-L2-TRAFFIC
+set local-preference 20
+exit
+router bgp 9000
+address-family ipv4 unicast
+neighbor 10.0.0.14 route-map RM-L2-TRAFFIC out
+neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
+end
 wr mem
 
 
@@ -219,6 +248,10 @@ write mem
 ---------------------------------------------------------------------
 
 !Aveiro
+conf t
+router bgp 9000
+neighbor 10.0.16.1 remote-as 9000
+neighbor 10.0.16.2 remote-as 9000
 int f0/0
 ip ospf 1 area 0
 ip add 10.0.0.17 255.255.255.252
@@ -237,9 +270,13 @@ no shut
 end
 write mem
 
+
 ---------------------------------------------------------------------
 
 !Oeiras
+conf t
+router bgp 9000
+neighbor 10.0.0.13 remote-as 9000
 int f0/0
 ip ospf 1 area 0
 ip add 10.0.0.25 255.255.255.252
