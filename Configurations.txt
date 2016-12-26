@@ -70,11 +70,13 @@ write mem
 !Porto
 conf t
 router bgp 9000
-bgp default local-preference 200
+bgp default local-preference 300
+address-family ipv4 unicast
 neighbor 4.20.20.1 remote-as 20000
 neighbor 10.0.0.10 remote-as 65300
 neighbor 10.0.16.3 remote-as 9000 !Aveiro
 neighbor 10.0.16.2 remote-as 9000 !Lisboa
+neighbor 10.0.16.2 default-originate
 !network 140.1.1.0 TODO
 int f1/0
 !BGP
@@ -131,11 +133,24 @@ conf t
 ip prefix-list PL-L2-TRAFFIC seq 5 permit 200.200.1.0/24
 route-map RM-L2-TRAFFIC permit 5
 match ip address prefix-list PL-L2-TRAFFIC
-set local-preference 20
+set local-preference 300
 exit
 router bgp 9000
 address-family ipv4 unicast
 neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
+end
+
+!Lisboa TRAFFIC
+conf t
+ip prefix-list PL-LISBOA-TRAFFIC seq 5 permit 200.100.1.0/24
+ip prefix-list PL-LISBOA-TRAFFIC seq 10 permit 0.0.0.0/0
+route-map RM-LISBOA-TRAFFIC permit 10
+match ip address prefix-list PL-LISBOA-TRAFFIC
+set local-preference 300
+exit
+router bgp 9000
+address-family ipv4 unicast
+neighbor 10.0.16.2 route-map RM-LISBOA-TRAFFIC out
 end
 wr mem
 
@@ -144,6 +159,7 @@ wr mem
 !Lisboa
 conf t
 router bgp 9000
+address-family ipv4 unicast
 neighbor 4.20.20.5 remote-as 20000
 neighbor 4.20.20.13 remote-as 30000
 neighbor 10.0.0.14 remote-as 9000 !Oeiras
@@ -209,13 +225,13 @@ neighbor 4.20.20.5 distribute-list fOut-priv-default out
 neighbor 4.20.20.13 distribute-list fOut-priv-default out
 end
 
-!L2 traffic
+!L2&L3 traffic
 conf t
 ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
 ip prefix-list PL-L2-TRAFFIC seq 10 permit 210.0.1.0/24
 route-map RM-L2-TRAFFIC permit 10
 match ip address prefix-list PL-L2-TRAFFIC
-set local-preference 20
+set local-preference 200
 exit
 router bgp 9000
 address-family ipv4 unicast
