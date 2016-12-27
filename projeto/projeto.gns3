@@ -538,17 +538,45 @@
                 "description": "Link from netB1 port 2 to PC2 port Ethernet0",
                 "destination_node_id": 56,
                 "destination_port_id": 714,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "e0",
+                    "x": -6.512811593520951,
+                    "y": 38.3317909604132
+                },
                 "id": 25,
                 "source_node_id": 18,
-                "source_port_id": 241
+                "source_port_id": 241,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 74.51281159352095,
+                    "y": 7.168209039586799
+                }
             },
             {
                 "description": "Link from netB2 port 2 to PC3 port Ethernet0",
                 "destination_node_id": 58,
                 "destination_port_id": 716,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "e0",
+                    "x": -7.47670403535767,
+                    "y": 30.864966838213206
+                },
                 "id": 27,
                 "source_node_id": 19,
-                "source_port_id": 249
+                "source_port_id": 249,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 75.47670403535761,
+                    "y": 14.635033161786794
+                }
             }
         ],
         "nodes": [
@@ -2763,8 +2791,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "type": "VPCSDevice",
                 "vm_id": "4c2ff892-c950-4dda-a448-8d8e5d2dde11",
-                "x": 420.5,
-                "y": -204.5
+                "x": 541.708152801713,
+                "y": -136.86038969321075
             },
             {
                 "description": "VPCS device",
@@ -2796,8 +2824,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "type": "VPCSDevice",
                 "vm_id": "932c2b1b-ab9e-40a5-993e-9e13a5aae0f0",
-                "x": 420.5,
-                "y": -80.5
+                "x": 535.0512985522207,
+                "y": -26.759884629822395
             }
         ],
         "notes": [

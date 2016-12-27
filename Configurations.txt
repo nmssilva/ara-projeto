@@ -121,7 +121,7 @@ end
 ! deny private networks
 conf t
 ip access-list standard fOut-priv-default
-10 deny 10.0.0.0 0.0.0.255
+10 deny 10.0.0.0 0.0.255.255
 100 permit any
 router bgp 9000
 address-family ipv4 unicast
@@ -229,7 +229,7 @@ distance 220
 
 conf t
 ip access-list standard fOut-priv-default
-10 deny 10.0.0.0 0.0.0.255
+10 deny 10.0.0.0 0.0.255.255
 100 permit any
 router bgp 9000
 address-family ipv4 unicast
@@ -265,6 +265,19 @@ ip explicit-path name path1 enable
 next-address 10.0.16.3
 next-address 10.0.0.22
 end
+
+!Voip TRAFFIC
+conf t
+access-list 101 permit ip any 130.1.1.0 0.0.0.63
+route-map RM-VOIP-TRAFFIC permit 20
+match ip address 101
+set int tunnel 1
+!set int verify-availability
+exit
+int f0/1
+ip policy route-map RM-VOIP-TRAFFIC
+end
+
 wr mem
 
 
@@ -492,15 +505,15 @@ end
 
 !Voip TRAFFIC
 conf t
- access-list 101 permit ip 130.1.1.0 0.0.0.63 any
- route-map RM-VOIP-TRAFFIC permit 20
-  match ip address 101
-  set int tunnel 1
-  !set int verify-availability
-  exit
-  int f0/1
-  ip policy route-map RM-VOIP-TRAFFIC
- end
+access-list 101 permit ip 130.1.1.0 0.0.0.63 any
+route-map RM-VOIP-TRAFFIC permit 20
+match ip address 101
+set int tunnel 1
+!set int verify-availability
+exit
+int f0/1
+ip policy route-map RM-VOIP-TRAFFIC
+end
 
 write mem
 
@@ -556,13 +569,13 @@ end
 conf t
 access-list 102 permit tcp 130.1.1.128 0.0.0.127 130.1.1.0 0.0.0.127 eq 80
 access-list 102 permit tcp 130.1.1.128 0.0.0.127 130.1.1.0 0.0.0.127 eq 443
- route-map RM-WEB-TRAFFIC permit 10
-  match ip address 102
-  set int tunnel 2
-  !set int verify-availability
-  exit
-  int f0/1
-  ip policy route-map RM-WEB-TRAFFIC
- end
+route-map RM-WEB-TRAFFIC permit 10
+match ip address 102
+set int tunnel 2
+!set int verify-availability
+exit
+int f0/1
+ip policy route-map RM-WEB-TRAFFIC
+end
 
 write mem
