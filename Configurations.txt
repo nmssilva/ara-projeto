@@ -158,6 +158,8 @@ wr mem
 
 !Lisboa
 conf t
+ip cef
+mpls traffic-eng tunnels
 router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.5 remote-as 20000
@@ -172,11 +174,15 @@ ipv6 add 2001:200:172::1/64
 no shut
 int f1/1
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 4096 4096 !MPLS
 ip add 10.0.16.2 255.255.240.0
 ipv6 add 2001:200:0::2/64
 no shut
 int f2/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 2048 2048 !MPLS
 ip add 10.0.0.13 255.255.255.252
 ipv6 add 2001:200:12::13/64
 no shut
@@ -189,11 +195,17 @@ ip add 4.20.20.6 255.255.255.252
 ipv6 add 2001:420:4::6/64
 no shut
 int lo0
-ip add 10.0.8.4 255.255.255.255
+ip ospf 1 area 0
+ip add 10.0.32.2 255.255.255.255
 no shut
 end
-write mem
 
+!MPLS
+conf t
+router ospf 1
+mpls traffic-eng area 0                
+mpls traffic-eng router-id Loopback 0
+end
 
 ! BGP non transit ISP X
 conf t
@@ -238,6 +250,21 @@ address-family ipv4 unicast
 neighbor 10.0.0.14 route-map RM-L2-TRAFFIC out
 neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
 end
+
+!TUNNEL B1-LISBOA
+conf t
+int tunnel 1
+no shut
+ip unnumbered Loopback0
+tunnel destination 10.0.32.7
+tunnel mode mpls traffic-eng
+tunnel mpls traffic-eng bandwidth 2048
+tunnel mpls traffic-eng path-option 1 explicit name path1
+exit
+ip explicit-path name path1 enable
+next-address 10.0.16.3
+next-address 10.0.0.22
+end
 wr mem
 
 
@@ -267,6 +294,8 @@ write mem
 
 !Aveiro
 conf t
+ip cef
+mpls traffic-eng tunnels
 router bgp 9000
 neighbor 10.0.16.1 remote-as 9000
 neighbor 10.0.16.2 remote-as 9000
@@ -277,14 +306,29 @@ ipv6 add 2001:200:16::17/64
 no shut
 int f0/1
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 4096 4096 !MPLS
 ip add 10.0.0.21 255.255.255.252
 ipv6 add 2001:200:20::21/64
 no shut
 int f1/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 4096 4096 !MPLS
 ip add 10.0.16.3 255.255.240.0
 ipv6 add 2001:200:0::3/64
 no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.4 255.255.255.255
+no shut
+end
+
+!MPLS
+conf t
+router ospf 1
+mpls traffic-eng area 0                
+mpls traffic-eng router-id Loopback 0
 end
 write mem
 
@@ -293,10 +337,14 @@ write mem
 
 !Oeiras
 conf t
+ip cef
+mpls traffic-eng tunnels
 router bgp 9000
 neighbor 10.0.0.13 remote-as 9000
 int f0/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 2048 2048 !MPLS
 ip add 10.0.0.25 255.255.255.252
 ipv6 add 2001:200:24::25/64
 no shut
@@ -307,9 +355,22 @@ ipv6 add 2001:200:28::29/64
 no shut
 int f1/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 2048 2048 !MPLS
 ip add 10.0.0.14 255.255.255.252
 ipv6 add 2001:200:12::14/64
 no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.5 255.255.255.255
+no shut
+end
+
+!MPLS
+conf t
+router ospf 1
+mpls traffic-eng area 0                
+mpls traffic-eng router-id Loopback 0
 end
 write mem
 
@@ -325,6 +386,10 @@ int f0/1
 ip ospf 1 area 0
 ip add 120.1.1.1 255.255.255.128
 ipv6 add 2001:120:0::1/64
+no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.6 255.255.255.255
 no shut
 end
 write mem
@@ -342,14 +407,23 @@ ip ospf 1 area 0
 ip add 120.1.1.129 255.255.255.128
 ipv6 add 2001:120:128::129/64
 no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.9 255.255.255.255
+no shut
 end
 write mem
 
 ---------------------------------------------------------------------
 
 !EmpB1
+conf t
+ip cef
+mpls traffic-eng tunnels
 int f0/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 4096 4096 !MPLS
 ip add 10.0.0.22 255.255.255.252
 ipv6 add 2001:200:20::22/64
 no shut
@@ -358,14 +432,62 @@ ip ospf 1 area 0
 ip add 130.1.1.1 255.255.255.128
 ipv6 add 2001:130:0::1/64
 no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.7 255.255.255.255
+no shut
+end
+
+!MPLS
+conf t
+router ospf 1
+mpls traffic-eng area 0                
+mpls traffic-eng router-id Loopback 0
+end
+
+!TUNNEL B1-LISBOA
+conf t
+int tunnel 1
+no shut
+ip unnumbered Loopback0
+tunnel destination 10.0.32.2
+tunnel mode mpls traffic-eng
+tunnel mpls traffic-eng bandwidth 2048
+tunnel mpls traffic-eng path-option 1 explicit name path1
+exit
+ip explicit-path name path1 enable
+next-address 10.0.0.21
+next-address 10.0.16.2
+end
+
+!TUNNEL B1-B2
+conf t
+int tunnel 2
+no shut
+ip unnumbered Loopback0
+tunnel destination 10.0.32.8
+tunnel mode mpls traffic-eng
+tunnel mpls traffic-eng bandwidth 2048
+tunnel mpls traffic-eng path-option 1 explicit name path2
+exit
+ip explicit-path name path2 enable
+next-address 10.0.0.21
+next-address 10.0.16.2
+next-address 10.0.0.14
+next-address 10.0.0.26
 end
 write mem
 
 ---------------------------------------------------------------------
 
 !EmpB2
+conf t
+ip cef
+mpls traffic-eng tunnels
 int f0/0
 ip ospf 1 area 0
+mpls traffic-eng tunnels    !MPLS
+ip rsvp bandwidth 2048 2048 !MPLS
 ip add 10.0.0.26 255.255.255.252
 ipv6 add 2001:200:24::26/64
 no shut
@@ -374,9 +496,33 @@ ip ospf 1 area 0
 ip add 130.1.1.129 255.255.255.128
 ipv6 add 2001:130:128::129/64
 no shut
+int lo0
+ip ospf 1 area 0
+ip add 10.0.32.8 255.255.255.255
+no shut
+end
+
+!MPLS
+conf t
+router ospf 1
+mpls traffic-eng area 0                
+mpls traffic-eng router-id Loopback 0
+end
+
+!TUNNEL B1-B2
+conf t
+int tunnel 2
+no shut
+ip unnumbered Loopback0
+tunnel destination 10.0.32.7
+tunnel mode mpls traffic-eng
+tunnel mpls traffic-eng bandwidth 2048
+tunnel mpls traffic-eng path-option 1 explicit name path2
+exit
+ip explicit-path name path2 enable
+next-address 10.0.0.25
+next-address 10.0.0.13
+next-address 10.0.16.3
+next-address 10.0.0.22
 end
 write mem
-
-conf t
-int f1/0
-no ip add
