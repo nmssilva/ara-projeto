@@ -1,5 +1,6 @@
 !London
 conf t
+ip route 0.0.0.0 0.0.0.0 f2/1
 router bgp 20000
 neighbor 4.20.20.2 remote-as 9000
 neighbor 4.20.20.10 remote-as 30000
@@ -73,11 +74,11 @@ router bgp 9000
 bgp default local-preference 300
 address-family ipv4 unicast
 neighbor 4.20.20.1 remote-as 20000
+neighbor 4.20.20.1 remove-private-as
 neighbor 10.0.0.10 remote-as 65300
 neighbor 10.0.16.3 remote-as 9000 !Aveiro
 neighbor 10.0.16.2 remote-as 9000 !Lisboa
 neighbor 10.0.16.2 default-originate
-!network 140.1.1.0 TODO
 int f1/0
 !BGP
 ip add 10.0.0.9 255.255.255.252
@@ -110,7 +111,8 @@ ip route 210.0.1.0 255.255.255.0 10.0.16.2
 
 ! BGP non transit ISP X
 conf t
-ip as-path access-list 1 permit ^$ 
+ip as-path access-list 1 permit ^$
+ip as-path access-list 1 permit _65300_
 route-map routes-out
 match as-path 1
 router bgp 9000
@@ -126,6 +128,7 @@ ip access-list standard fOut-priv-default
 router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.1 distribute-list fOut-priv-default out
+neighbor 10.0.0.10 distribute-list fOut-priv-default out
 end
 
 !L2 traffic
@@ -143,7 +146,7 @@ end
 !Lisboa TRAFFIC
 conf t
 ip prefix-list PL-LISBOA-TRAFFIC seq 5 permit 200.100.1.0/24
-ip prefix-list PL-LISBOA-TRAFFIC seq 10 permit 0.0.0.0/0
+!ip prefix-list PL-LISBOA-TRAFFIC seq 10 permit 0.0.0.0/0
 route-map RM-LISBOA-TRAFFIC permit 10
 match ip address prefix-list PL-LISBOA-TRAFFIC
 set local-preference 300
@@ -163,7 +166,9 @@ mpls traffic-eng tunnels
 router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.5 remote-as 20000
+neighbor 4.20.20.5 remove-private-as
 neighbor 4.20.20.13 remote-as 30000
+neighbor 4.20.20.13 remove-private-as
 neighbor 10.0.0.14 remote-as 9000 !Oeiras
 neighbor 10.0.16.3 remote-as 9000 !Aveiro
 neighbor 10.0.16.1 remote-as 9000 !Porto
@@ -209,7 +214,8 @@ end
 
 ! BGP non transit ISP X
 conf t
-ip as-path access-list 1 permit ^$ 
+ip as-path access-list 1 permit ^$
+ip as-path access-list 1 permit _65300_
 route-map routes-out
 match as-path 1
 router bgp 9000
@@ -285,20 +291,21 @@ wr mem
 ---------------------------------------------------------------------
 
 !EmpC
+conf t
 router bgp 65300
 neighbor 10.0.0.9 remote-as 9000
+network 140.1.1.0
 int f0/0
 !BGP
 ip add 10.0.0.10 255.255.255.252
 ipv6 add 2001:200:8::10/64
 no shut
 int f0/1
-ip ospf 1 area 0
 ip add 140.1.1.1 255.255.255.0
 ipv6 add 2001:140::1/64
 no shut
 int lo0
-ip add 10.0.8.5 255.255.255.255
+ip add 10.0.32.3 255.255.255.255
 no shut
 end
 write mem
