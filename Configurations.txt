@@ -461,21 +461,47 @@ next-address 10.0.16.2
 end
 
 !TUNNEL B1-B2
+ conf t
+ int tunnel 2
+ no shut
+ ip unnumbered Loopback0
+ tunnel destination 10.0.32.8
+ tunnel mode mpls traffic-eng
+ tunnel mpls traffic-eng bandwidth 2048
+ tunnel mpls traffic-eng path-option 1 explicit name path2
+ exit
+ ip explicit-path name path2 enable
+ next-address 10.0.0.21
+ next-address 10.0.16.2
+ next-address 10.0.0.14
+ next-address 10.0.0.26
+ end
+
+!WEB TRAFFIC
 conf t
-int tunnel 2
-no shut
-ip unnumbered Loopback0
-tunnel destination 10.0.32.8
-tunnel mode mpls traffic-eng
-tunnel mpls traffic-eng bandwidth 2048
-tunnel mpls traffic-eng path-option 1 explicit name path2
+access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 80
+access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 443
+route-map RM-WEB-TRAFFIC permit 10
+match ip address 102
+set int tunnel 2
+!set next-hop verify-availability
 exit
-ip explicit-path name path2 enable
-next-address 10.0.0.21
-next-address 10.0.16.2
-next-address 10.0.0.14
-next-address 10.0.0.26
+int f0/1
+ip policy route-map RM-WEB-TRAFFIC
 end
+
+!Voip TRAFFIC
+conf t
+ access-list 101 permit ip 130.1.1.0 0.0.0.63 any
+ route-map RM-VOIP-TRAFFIC permit 20
+  match ip address 101
+  set int tunnel 1
+  !set int verify-availability
+  exit
+  int f0/1
+  ip policy route-map RM-VOIP-TRAFFIC
+ end
+
 write mem
 
 ---------------------------------------------------------------------
@@ -525,4 +551,18 @@ next-address 10.0.0.13
 next-address 10.0.16.3
 next-address 10.0.0.22
 end
+
+!WEB TRAFFIC
+conf t
+access-list 102 permit tcp 130.1.1.128 0.0.0.127 130.1.1.0 0.0.0.127 eq 80
+access-list 102 permit tcp 130.1.1.128 0.0.0.127 130.1.1.0 0.0.0.127 eq 443
+ route-map RM-WEB-TRAFFIC permit 10
+  match ip address 102
+  set int tunnel 2
+  !set int verify-availability
+  exit
+  int f0/1
+  ip policy route-map RM-WEB-TRAFFIC
+ end
+
 write mem
