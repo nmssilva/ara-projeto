@@ -274,7 +274,7 @@ match ip address 101
 set int tunnel 1
 !set int verify-availability
 exit
-int f0/1
+int f1/0
 ip policy route-map RM-VOIP-TRAFFIC
 end
 
@@ -490,29 +490,22 @@ end
  next-address 10.0.0.26
  end
 
-!WEB TRAFFIC
+!Tunnel TRAFFIC
 conf t
 access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 80
 access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 443
-route-map RM-WEB-TRAFFIC permit 10
+access-list 101 permit ip 130.1.1.0 0.0.0.63 any
+
+route-map RM-TUNNEL-TRAFFIC permit 10
 match ip address 102
 set int tunnel 2
-!set next-hop verify-availability
-exit
-int f0/1
-ip policy route-map RM-WEB-TRAFFIC
-end
 
-!Voip TRAFFIC
-conf t
-access-list 101 permit ip 130.1.1.0 0.0.0.63 any
-route-map RM-VOIP-TRAFFIC permit 20
+route-map RM-TUNNEL-TRAFFIC permit 20
 match ip address 101
 set int tunnel 1
-!set int verify-availability
 exit
 int f0/1
-ip policy route-map RM-VOIP-TRAFFIC
+ip policy route-map RM-TUNNEL-TRAFFIC
 end
 
 write mem
