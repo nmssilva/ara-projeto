@@ -78,7 +78,7 @@ neighbor 4.20.20.1 remove-private-as
 neighbor 10.0.0.10 remote-as 65300
 neighbor 10.0.16.3 remote-as 9000 !Aveiro
 neighbor 10.0.16.2 remote-as 9000 !Lisboa
-neighbor 10.0.16.2 default-originate
+!neighbor 10.0.16.2 default-originate
 int f1/0
 !BGP
 ip add 10.0.0.9 255.255.255.252
@@ -349,6 +349,27 @@ conf t
 router ospf 1
 mpls traffic-eng area 0                
 mpls traffic-eng router-id Loopback 0
+end
+
+!VPN
+conf t
+ip vrf VPN-1
+rd 9000:1
+route-target export 9000:1
+route-target import 9000:1
+exit
+int f0/0
+ip vrf forwarding VPN-1
+exit
+router bgp 9000
+bgp router-id 4.4.4.4
+neighbor 10.0.32.5 remote-as 9000
+neighbor 10.0.32.5 update-source Loopback0
+address-family vpnv4 
+neighbor 10.0.32.5 activate
+neighbor 192.2.0.11 send-community both
+address-family ipv4 vrf VPN-1 
+redistribute connected
 end
 write mem
 

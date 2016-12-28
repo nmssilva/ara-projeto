@@ -3,6 +3,7 @@
     "name": "projeto",
     "project_id": "fdd4f214-8fe0-42b0-b6c9-f7023f2f578c",
     "revision": 4,
+    "show_port_names": true,
     "topology": {
         "links": [
             {
@@ -576,6 +577,28 @@
                     "x": 47.99183686189377,
                     "y": -9.808074508739622
                 }
+            },
+            {
+                "description": "Link from ubuntu-12.04-server-i386 Clone1 port Ethernet0 to netS1 port 2",
+                "destination_node_id": 13,
+                "destination_port_id": 208,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 2.5770677285021293,
+                    "y": -6.717405896060512
+                },
+                "id": 27,
+                "source_node_id": 59,
+                "source_port_id": 741,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "e0",
+                    "x": 65.42293227149787,
+                    "y": 52.21740589606051
+                }
             }
         ],
         "nodes": [
@@ -688,8 +711,11 @@
                         "vlan": 1
                     },
                     {
+                        "description": "connected to ubuntu-12.04-server-i386 Clone1 on port Ethernet0",
                         "id": 208,
+                        "link_id": 27,
                         "name": "2",
+                        "nio": "NIO_UDP",
                         "port_number": 2,
                         "type": "access",
                         "vlan": 1
@@ -2823,6 +2849,47 @@
                 "vm_id": "932c2b1b-ab9e-40a5-993e-9e13a5aae0f0",
                 "x": 535.0512985522207,
                 "y": -26.759884629822395
+            },
+            {
+                "description": "VirtualBox VM",
+                "id": 59,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "ubuntu-12.04-server-i386 Clone1",
+                    "x": -80.0,
+                    "y": -25.0
+                },
+                "linked_clone": false,
+                "port_name_format": "Ethernet{0}",
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to netS1 on port 2",
+                        "id": 741,
+                        "link_id": 27,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "acpi_shutdown": false,
+                    "adapter_type": "Intel PRO/1000 MT Desktop (82540EM)",
+                    "adapters": 1,
+                    "console": 5014,
+                    "enable_remote_console": false,
+                    "headless": false,
+                    "name": "ubuntu-12.04-server-i386 Clone1",
+                    "ram": 512,
+                    "use_any_adapter": false,
+                    "vmname": "ubuntu-12.04-server-i386 Clone1"
+                },
+                "server_id": 1,
+                "type": "VirtualBoxVM",
+                "vm_id": "5304a423-8329-47d3-85dd-29e87f6ec7c0",
+                "x": -550.1021638285528,
+                "y": 18.583261120685222
             }
         ],
         "notes": [
@@ -2879,8 +2946,8 @@
             {
                 "height": 619.4255403194156,
                 "width": 642.0529573173851,
-                "x": -125.58947959294687,
-                "y": -403.5978545381163,
+                "x": -114.2757710939621,
+                "y": -399.3552138509971,
                 "z": -20.0
             }
         ],
