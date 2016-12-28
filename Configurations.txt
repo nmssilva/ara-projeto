@@ -76,9 +76,15 @@ address-family ipv4 unicast
 neighbor 4.20.20.1 remote-as 20000
 neighbor 4.20.20.1 remove-private-as
 neighbor 10.0.0.10 remote-as 65300
-neighbor 10.0.16.3 remote-as 9000 !Aveiro
-neighbor 10.0.16.2 remote-as 9000 !Lisboa
-!neighbor 10.0.16.2 default-originate
+neighbor 10.0.32.4 remote-as 9000 !Aveiro
+neighbor 10.0.32.4 next-hop-self
+neighbor 10.0.32.4 update-source Loopback 0
+neighbor 10.0.32.5 remote-as 9000 !Oeiras
+neighbor 10.0.32.5 next-hop-self
+neighbor 10.0.32.5 update-source Loopback 0
+neighbor 10.0.32.2 remote-as 9000 !Lisboa
+neighbor 10.0.32.2 next-hop-self
+neighbor 10.0.32.2 update-source Loopback 0
 int f1/0
 !BGP
 ip add 10.0.0.9 255.255.255.252
@@ -94,7 +100,8 @@ ip add 4.20.20.2 255.255.255.252
 ipv6 add 2001:420:0::2/64
 no shut
 int lo0
-ip add 10.0.8.2 255.255.255.255
+ip ospf 1 area 0
+ip add 10.0.32.1 255.255.255.255
 no shut
 end
 
@@ -105,9 +112,6 @@ redistribute ospf 1
 router ospf 1
 default-information originate always
 distance 220
-
-!netS1 traffic
-ip route 210.0.1.0 255.255.255.0 10.0.16.2
 
 ! BGP non transit ISP X
 conf t
@@ -131,31 +135,16 @@ neighbor 4.20.20.1 distribute-list fOut-priv-default out
 neighbor 10.0.0.10 distribute-list fOut-priv-default out
 end
 
-!L2 traffic
+! Deny Sintra traffic from outer routers
 conf t
-ip prefix-list PL-L2-TRAFFIC seq 5 permit 200.200.1.0/24
-route-map RM-L2-TRAFFIC permit 5
-match ip address prefix-list PL-L2-TRAFFIC
-set local-preference 300
-exit
+ip prefix-list PL-SINTRA seq 10 deny 210.0.1.0/24
+ip prefix-list PL-SINTRA seq 100 permit 0.0.0.0/0 le 32
 router bgp 9000
 address-family ipv4 unicast
-neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
+neighbor 4.20.20.1 prefix-list PL-SINTRA in
 end
+wr me
 
-!Lisboa TRAFFIC
-conf t
-ip prefix-list PL-LISBOA-TRAFFIC seq 5 permit 200.100.1.0/24
-!ip prefix-list PL-LISBOA-TRAFFIC seq 10 permit 0.0.0.0/0
-route-map RM-LISBOA-TRAFFIC permit 10
-match ip address prefix-list PL-LISBOA-TRAFFIC
-set local-preference 300
-exit
-router bgp 9000
-address-family ipv4 unicast
-neighbor 10.0.16.2 route-map RM-LISBOA-TRAFFIC out
-end
-wr mem
 
 ---------------------------------------------------------------------
 
@@ -169,9 +158,15 @@ neighbor 4.20.20.5 remote-as 20000
 neighbor 4.20.20.5 remove-private-as
 neighbor 4.20.20.13 remote-as 30000
 neighbor 4.20.20.13 remove-private-as
-neighbor 10.0.0.14 remote-as 9000 !Oeiras
-neighbor 10.0.16.3 remote-as 9000 !Aveiro
-neighbor 10.0.16.1 remote-as 9000 !Porto
+neighbor 10.0.32.5 remote-as 9000 !Oeiras
+neighbor 10.0.32.5 next-hop-self
+neighbor 10.0.32.5 update-source Loopback 0
+neighbor 10.0.32.4 remote-as 9000 !Aveiro
+neighbor 10.0.32.4 next-hop-self
+neighbor 10.0.32.4 update-source Loopback 0
+neighbor 10.0.32.1 remote-as 9000 !Porto
+neighbor 10.0.32.1 next-hop-self
+neighbor 10.0.32.1 update-source Loopback 0
 int f1/0
 ip ospf 1 area 0
 ip add 192.172.1.1 255.255.255.0
@@ -230,7 +225,7 @@ conf t
 router bgp 9000
 redistribute ospf 1
 router ospf 1
-default-information originate always
+default-information originate always metric 200
 distance 220
 
 conf t
@@ -246,16 +241,33 @@ end
 !L2&L3 traffic
 conf t
 ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
-ip prefix-list PL-L2-TRAFFIC seq 10 permit 210.0.1.0/24
 route-map RM-L2-TRAFFIC permit 10
 match ip address prefix-list PL-L2-TRAFFIC
+set local-preference 400
+exit
+router bgp 9000
+address-family ipv4 unicast
+neighbor 10.0.32.5 route-map RM-L2-TRAFFIC out
+neighbor 10.0.32.4 route-map RM-L2-TRAFFIC out
+end
+
+!Outside traffic preference
+conf t
+ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
+ip prefix-list PL-PERMIT-REST seq 5 permit 0.0.0.0/0 le 32
+route-map RM-OUTSIDE-ROUTES permit 20
+match ip address prefix-list PL-L2-TRAFFIC
+set local-preference 300
+match ip address prefix-list PL-PERMIT-REST
 set local-preference 200
 exit
 router bgp 9000
 address-family ipv4 unicast
-neighbor 10.0.0.14 route-map RM-L2-TRAFFIC out
-neighbor 10.0.16.3 route-map RM-L2-TRAFFIC out
+neighbor 4.20.20.5 route-map RM-OUTSIDE-ROUTES in
+neighbor 4.20.20.5 prefix-list PL-PERMIT-REST in
 end
+wr me
+
 
 !TUNNEL B1-LISBOA
 conf t
@@ -317,8 +329,15 @@ conf t
 ip cef
 mpls traffic-eng tunnels
 router bgp 9000
-neighbor 10.0.16.1 remote-as 9000
-neighbor 10.0.16.2 remote-as 9000
+neighbor 10.0.32.1 remote-as 9000 !Porto
+neighbor 10.0.32.1 next-hop-self
+neighbor 10.0.32.1 update-source Loopback 0
+neighbor 10.0.32.2 remote-as 9000 !Lisboa
+neighbor 10.0.32.2 next-hop-self
+neighbor 10.0.32.2 update-source Loopback 0
+neighbor 10.0.32.5 remote-as 9000 !Oeiras
+neighbor 10.0.32.5 next-hop-self
+neighbor 10.0.32.5 update-source Loopback 0
 int f0/0
 ip ospf 1 area 0
 ip add 10.0.0.17 255.255.255.252
@@ -381,7 +400,15 @@ conf t
 ip cef
 mpls traffic-eng tunnels
 router bgp 9000
-neighbor 10.0.0.13 remote-as 9000
+neighbor 10.0.32.1 remote-as 9000 !Porto
+neighbor 10.0.32.1 next-hop-self
+neighbor 10.0.32.1 update-source Loopback 0
+neighbor 10.0.32.2 remote-as 9000 !Lisboa
+neighbor 10.0.32.2 next-hop-self
+neighbor 10.0.32.2 update-source Loopback 0
+neighbor 10.0.32.4 remote-as 9000 !Aveiro
+neighbor 10.0.32.4 next-hop-self
+neighbor 10.0.32.4 update-source Loopback 0
 int f0/0
 ip ospf 1 area 0
 mpls traffic-eng tunnels    !MPLS
