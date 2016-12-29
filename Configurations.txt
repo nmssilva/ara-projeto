@@ -253,12 +253,16 @@ end
 
 !Outside traffic preference
 conf t
+ip access-list standard ACL-PERMIT-REST
+10 deny 210.0.1.0 0.0.0.255
+100 permit any
+exit
 ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
-ip prefix-list PL-PERMIT-REST seq 5 permit 0.0.0.0/0 le 32
-route-map RM-OUTSIDE-ROUTES permit 20
+route-map RM-OUTSIDE-ROUTES permit 10
 match ip address prefix-list PL-L2-TRAFFIC
 set local-preference 300
-match ip address prefix-list PL-PERMIT-REST
+route-map RM-OUTSIDE-ROUTES permit 20
+match ip address ACL-PERMIT-REST
 set local-preference 200
 exit
 router bgp 9000
@@ -379,16 +383,19 @@ route-target import 9000:1
 exit
 int f0/0
 ip vrf forwarding VPN-1
+ip add 10.0.0.17 255.255.255.252
 exit
 router bgp 9000
 bgp router-id 4.4.4.4
-neighbor 10.0.32.5 remote-as 9000
-neighbor 10.0.32.5 update-source Loopback0
+!neighbor 10.0.32.5 remote-as 9000
+!neighbor 10.0.32.5 update-source Loopback0
 address-family vpnv4 
 neighbor 10.0.32.5 activate
-neighbor 192.2.0.11 send-community both
+neighbor 10.0.32.5 send-community both
+exit
 address-family ipv4 vrf VPN-1 
 redistribute connected
+redistribute static
 end
 write mem
 
