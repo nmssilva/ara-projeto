@@ -29,28 +29,6 @@
                 }
             },
             {
-                "description": "Link from netX1 port 2 to PC1 port Ethernet0",
-                "destination_node_id": 29,
-                "destination_port_id": 320,
-                "destination_port_label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "e0",
-                    "x": -3.604147248138041,
-                    "y": 12.281099004734159
-                },
-                "id": 2,
-                "source_node_id": 27,
-                "source_port_id": 313,
-                "source_port_label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "2",
-                    "x": 71.60414724813805,
-                    "y": 33.21890099526581
-                }
-            },
-            {
                 "description": "Link from London port FastEthernet1/1 to netL1 port 1",
                 "destination_node_id": 14,
                 "destination_port_id": 215,
@@ -601,25 +579,69 @@
                 }
             },
             {
-                "description": "Link from ubuntu-12.04-server-i386 Clone1 port Ethernet0 to netS1 port 2",
-                "destination_node_id": 13,
-                "destination_port_id": 208,
+                "description": "Link from netA2 port 2 to PC5 port Ethernet0",
+                "destination_node_id": 62,
+                "destination_port_id": 837,
                 "destination_port_label": {
                     "color": "#ff000000",
                     "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "2",
-                    "x": 2.5770677285021293,
-                    "y": -6.717405896060512
+                    "text": "e0",
+                    "x": -7.492839047589769,
+                    "y": 28.74314802399617
                 },
-                "id": 28,
-                "source_node_id": 59,
-                "source_port_id": 741,
+                "id": 29,
+                "source_node_id": 20,
+                "source_port_id": 257,
                 "source_port_label": {
                     "color": "#ff000000",
                     "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 75.49283904758977,
+                    "y": 16.75685197600383
+                }
+            },
+            {
+                "description": "Link from netA1 port 2 to PC4 port Ethernet0",
+                "destination_node_id": 61,
+                "destination_port_id": 836,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
                     "text": "e0",
-                    "x": 65.42293227149787,
-                    "y": 52.21740589606051
+                    "x": -7.3377489584155455,
+                    "y": 25.900867059101188
+                },
+                "id": 30,
+                "source_node_id": 17,
+                "source_port_id": 233,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 75.33774895841555,
+                    "y": 19.599132940898812
+                }
+            },
+            {
+                "description": "Link from netX1 port 2 to ubuntu-12.04-server-i386 Clone1 port Ethernet0",
+                "destination_node_id": 63,
+                "destination_port_id": 838,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "e0",
+                    "x": -4.555824123907037,
+                    "y": 14.437931798784433
+                },
+                "id": 31,
+                "source_node_id": 27,
+                "source_port_id": 313,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 72.55582412390703,
+                    "y": 31.062068201215567
                 }
             }
         ],
@@ -733,11 +755,8 @@
                         "vlan": 1
                     },
                     {
-                        "description": "connected to ubuntu-12.04-server-i386 Clone1 on port Ethernet0",
                         "id": 208,
-                        "link_id": 28,
                         "name": "2",
-                        "nio": "NIO_UDP",
                         "port_number": 2,
                         "type": "access",
                         "vlan": 1
@@ -976,8 +995,11 @@
                         "vlan": 1
                     },
                     {
+                        "description": "connected to PC4 on port Ethernet0",
                         "id": 233,
+                        "link_id": 30,
                         "name": "2",
+                        "nio": "NIO_UDP",
                         "port_number": 2,
                         "type": "access",
                         "vlan": 1
@@ -1225,8 +1247,11 @@
                         "vlan": 1
                     },
                     {
+                        "description": "connected to PC5 on port Ethernet0",
                         "id": 257,
+                        "link_id": 29,
                         "name": "2",
+                        "nio": "NIO_UDP",
                         "port_number": 2,
                         "type": "access",
                         "vlan": 1
@@ -1305,9 +1330,9 @@
                         "vlan": 1
                     },
                     {
-                        "description": "connected to PC1 on port Ethernet0",
+                        "description": "connected to ubuntu-12.04-server-i386 Clone1 on port Ethernet0",
                         "id": 313,
-                        "link_id": 2,
+                        "link_id": 31,
                         "name": "2",
                         "nio": "NIO_UDP",
                         "port_number": 2,
@@ -1364,38 +1389,6 @@
                 "type": "EthernetSwitch",
                 "x": -100.3528137423857,
                 "y": 100.94826817189067
-            },
-            {
-                "description": "VPCS device",
-                "id": 29,
-                "label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "PC1",
-                    "x": 12.0,
-                    "y": -25.0
-                },
-                "ports": [
-                    {
-                        "adapter_number": 0,
-                        "description": "connected to netX1 on port 2",
-                        "id": 320,
-                        "link_id": 2,
-                        "name": "Ethernet0",
-                        "nio": "NIO_UDP",
-                        "port_number": 0
-                    }
-                ],
-                "properties": {
-                    "console": 5000,
-                    "name": "PC1"
-                },
-                "server_id": 1,
-                "symbol": ":/symbols/vpcs_guest.svg",
-                "type": "VPCSDevice",
-                "vm_id": "4f1dad65-464c-4481-abb4-591c62944db6",
-                "x": 11.541630560342611,
-                "y": 132.70310216782968
             },
             {
                 "description": "Ethernet switch",
@@ -2872,49 +2865,8 @@
                 "symbol": ":/symbols/vpcs_guest.svg",
                 "type": "VPCSDevice",
                 "vm_id": "932c2b1b-ab9e-40a5-993e-9e13a5aae0f0",
-                "x": 535.0512985522207,
+                "x": 533.6370849898476,
                 "y": -26.759884629822395
-            },
-            {
-                "description": "VirtualBox VM",
-                "id": 59,
-                "label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "ubuntu-12.04-server-i386 Clone1",
-                    "x": -80.0,
-                    "y": -25.0
-                },
-                "linked_clone": false,
-                "port_name_format": "Ethernet{0}",
-                "ports": [
-                    {
-                        "adapter_number": 0,
-                        "description": "connected to netS1 on port 2",
-                        "id": 741,
-                        "link_id": 28,
-                        "name": "Ethernet0",
-                        "nio": "NIO_UDP",
-                        "port_number": 0
-                    }
-                ],
-                "properties": {
-                    "acpi_shutdown": false,
-                    "adapter_type": "Intel PRO/1000 MT Desktop (82540EM)",
-                    "adapters": 1,
-                    "console": 5014,
-                    "enable_remote_console": false,
-                    "headless": false,
-                    "name": "ubuntu-12.04-server-i386 Clone1",
-                    "ram": 512,
-                    "use_any_adapter": false,
-                    "vmname": "ubuntu-12.04-server-i386 Clone1"
-                },
-                "server_id": 1,
-                "type": "VirtualBoxVM",
-                "vm_id": "5304a423-8329-47d3-85dd-29e87f6ec7c0",
-                "x": -550.1021638285528,
-                "y": 18.583261120685222
             },
             {
                 "description": "Host",
@@ -2968,8 +2920,115 @@
                 },
                 "server_id": 1,
                 "type": "Host",
-                "x": 548.741774135342,
-                "y": -251.5315292925759
+                "x": 657.6362184380702,
+                "y": -141.22287142747447
+            },
+            {
+                "description": "VPCS device",
+                "id": 61,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "PC4",
+                    "x": 16.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to netA1 on port 2",
+                        "id": 836,
+                        "link_id": 30,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "console": 5015,
+                    "name": "PC4",
+                    "startup_script_path": "startup.vpc"
+                },
+                "server_id": 1,
+                "symbol": ":/symbols/vpcs_guest.svg",
+                "type": "VPCSDevice",
+                "vm_id": "52eef159-6c8e-4cf0-9b83-733cc6c3d55e",
+                "x": 537.4280656363572,
+                "y": -267.0878784786799
+            },
+            {
+                "description": "VPCS device",
+                "id": 62,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "PC5",
+                    "x": 16.5,
+                    "y": -25.0
+                },
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to netA2 on port 2",
+                        "id": 837,
+                        "link_id": 29,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "console": 5016,
+                    "name": "PC5",
+                    "startup_script_path": "startup.vpc"
+                },
+                "server_id": 1,
+                "symbol": ":/symbols/vpcs_guest.svg",
+                "type": "VPCSDevice",
+                "vm_id": "ceec09bf-d47f-4a35-a8dc-d95cbd1ecd6c",
+                "x": 543.0849198858494,
+                "y": 99.19343417595165
+            },
+            {
+                "description": "VirtualBox VM",
+                "id": 63,
+                "label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "ubuntu-12.04-server-i386 Clone1",
+                    "x": -80.0,
+                    "y": -25.0
+                },
+                "linked_clone": false,
+                "port_name_format": "Ethernet{0}",
+                "ports": [
+                    {
+                        "adapter_number": 0,
+                        "description": "connected to netX1 on port 2",
+                        "id": 838,
+                        "link_id": 31,
+                        "name": "Ethernet0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    }
+                ],
+                "properties": {
+                    "acpi_shutdown": false,
+                    "adapter_type": "Intel PRO/1000 MT Desktop (82540EM)",
+                    "adapters": 1,
+                    "console": 5000,
+                    "enable_remote_console": false,
+                    "headless": false,
+                    "name": "ubuntu-12.04-server-i386 Clone1",
+                    "ram": 512,
+                    "use_any_adapter": false,
+                    "vmname": "ubuntu-12.04-server-i386 Clone1"
+                },
+                "server_id": 1,
+                "type": "VirtualBoxVM",
+                "vm_id": "5d8ee470-109b-4d48-a2f0-7be197920ce4",
+                "x": 25.48275605729689,
+                "y": 137.3772003600252
             }
         ],
         "notes": [
@@ -3026,8 +3085,8 @@
             {
                 "height": 619.4255403194156,
                 "width": 642.0529573173851,
-                "x": -112.861557531589,
-                "y": -403.5978545381163,
+                "x": -111.4473439692159,
+                "y": -409.25470878760865,
                 "z": -20.0
             }
         ],
