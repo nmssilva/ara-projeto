@@ -686,6 +686,10 @@ end
 write mem
 
 
-!SERVER
-sudo ifconfig eth0 192.168.0.1 netmask 255.255.255.0
-sudo route add default gw 192.168.0.253 eth0
+!SERVER1
+sudo ifconfig eth0 192.172.1.2 netmask 255.255.255.0
+sudo route add default gw 192.172.1.1 eth0
+
+!SERVER2
+sudo ifconfig eth0 210.0.1.2 netmask 255.255.255.0
+sudo route add default gw 210.0.1.1 eth0
