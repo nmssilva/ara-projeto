@@ -671,7 +671,7 @@ exit
 ip route 120.1.1.128 255.255.255.128 f0/1 10.0.0.30
 ip route 10.0.0.28 255.255.255.252 f0/1
 ip route vrf VPN-1 0.0.0.0 0.0.0.0 10.0.0.13 global
-ip route vrf VPN-1 120.1.1.128 255.255.255.128 f1/0 10.0.0.30
+ip route vrf VPN-1 120.1.1.128 255.255.255.128 f0/1 10.0.0.30
 router ospf 1 
 redistribute static subnets
 end
