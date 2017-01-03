@@ -23,8 +23,8 @@ neighbor 2001:420:4::6 activate
 neighbor 2001:420:8::10 remote-as 30000   !Sintra
 neighbor 2001:420:8::10 default-originate
 neighbor 2001:420:8::10 activate
-network 2100:200:100::/48 
-network 2100:200:200::/48 
+network 2100:200:100::/64
+network 2100:200:200::/64
 exit
 
 int f1/1
@@ -84,7 +84,7 @@ exit
 
 int f1/0
 ip add 210.0.1.1 255.255.255.0
-ipv6 add 2001:210:0::1/64
+ipv6 add 2100:210:0::1/64
 ipv6 enable
 no shut
 int f0/1
@@ -204,7 +204,7 @@ end
 conf t
 ip prefix-list PL-SINTRA seq 10 deny 210.0.1.0/24
 ip prefix-list PL-SINTRA seq 100 permit 0.0.0.0/0 le 32
-ipv6 prefix-list PL-SINTRA-IPV6 seq 10 deny 2100:210::/24
+ipv6 prefix-list PL-SINTRA-IPV6 seq 10 deny 2100:210::/64
 ipv6 prefix-list PL-SINTRA-IPV6 seq 100 permit ::/0 le 128
 router bgp 9000
 address-family ipv4 unicast
@@ -568,9 +568,7 @@ ip route 120.1.1.0 255.255.255.128 f0/0 10.0.0.18
 ip route 10.0.0.16 255.255.255.252 f0/0
 ip route vrf VPN-1 0.0.0.0 0.0.0.0 10.0.16.2 global
 ip route vrf VPN-1 120.1.1.0 255.255.255.128 f0/0 10.0.0.18
-ip route 120.1.1.0 255.255.255.128 f0/0
 router ospf 1
-distance 220
 redistribute static subnets
 end
 write mem
@@ -674,7 +672,6 @@ ip route 120.1.1.128 255.255.255.128 f0/1 10.0.0.30
 ip route 10.0.0.28 255.255.255.252 f0/1
 ip route vrf VPN-1 0.0.0.0 0.0.0.0 10.0.0.13 global
 ip route vrf VPN-1 120.1.1.128 255.255.255.128 f1/0 10.0.0.30
-ip route 120.1.1.128 255.255.255.128 f0/1
 router ospf 1 
 redistribute static subnets
 end
