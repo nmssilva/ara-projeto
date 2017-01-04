@@ -7,28 +7,6 @@
     "topology": {
         "links": [
             {
-                "description": "Link from ubuntu-12.04-server-i386 Clone2 port Ethernet0 to netS1 port 2",
-                "destination_node_id": 13,
-                "destination_port_id": 208,
-                "destination_port_label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "2",
-                    "x": 2.2405060992880976,
-                    "y": -6.221747579083569
-                },
-                "id": 1,
-                "source_node_id": 68,
-                "source_port_id": 865,
-                "source_port_label": {
-                    "color": "#ff000000",
-                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
-                    "text": "e0",
-                    "x": 65.7594939007119,
-                    "y": 51.72174757908358
-                }
-            },
-            {
                 "description": "Link from Host port nio_gen_eth:Wi-Fi 2 to netB1 port 3",
                 "destination_node_id": 18,
                 "destination_port_id": 242,
@@ -39,7 +17,7 @@
                     "x": 75.49965487392512,
                     "y": 16.1661624713294
                 },
-                "id": 2,
+                "id": 1,
                 "source_node_id": 65,
                 "source_port_id": 864,
                 "source_port_label": {
@@ -48,6 +26,28 @@
                     "text": "nio_gen_eth:Wi-Fi 2",
                     "x": -7.499654873925124,
                     "y": 29.3338375286706
+                }
+            },
+            {
+                "description": "Link from ubuntu-12.04-server-i386 Clone2 port Ethernet0 to netS1 port 2",
+                "destination_node_id": 13,
+                "destination_port_id": 208,
+                "destination_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "2",
+                    "x": 2.2405060992880976,
+                    "y": -6.221747579083569
+                },
+                "id": 2,
+                "source_node_id": 68,
+                "source_port_id": 865,
+                "source_port_label": {
+                    "color": "#ff000000",
+                    "font": "TypeWriter,10,-1,5,75,0,0,0,0,0",
+                    "text": "e0",
+                    "x": 65.7594939007119,
+                    "y": 51.72174757908358
                 }
             },
             {
@@ -682,7 +682,7 @@
                     {
                         "description": "connected to netB1 on port 3",
                         "id": 864,
-                        "link_id": 2,
+                        "link_id": 1,
                         "name": "nio_gen_eth:Wi-Fi 2",
                         "nio": "NIO_Generic_Ethernet",
                         "stub": true
@@ -716,7 +716,7 @@
                         "adapter_number": 0,
                         "description": "connected to netS1 on port 2",
                         "id": 865,
-                        "link_id": 1,
+                        "link_id": 2,
                         "name": "Ethernet0",
                         "nio": "NIO_UDP",
                         "port_number": 0
@@ -851,7 +851,7 @@
                     {
                         "description": "connected to ubuntu-12.04-server-i386 Clone2 on port Ethernet0",
                         "id": 208,
-                        "link_id": 1,
+                        "link_id": 2,
                         "name": "2",
                         "nio": "NIO_UDP",
                         "port_number": 2,
@@ -1187,7 +1187,7 @@
                     {
                         "description": "connected to Host on port nio_gen_eth:Wi-Fi 2",
                         "id": 242,
-                        "link_id": 2,
+                        "link_id": 1,
                         "name": "3",
                         "nio": "NIO_Generic_Ethernet",
                         "port_number": 3,
@@ -1592,18 +1592,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "id": 957,
-                        "name": "FastEthernet1/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "id": 958,
-                        "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "id": 955,
                         "name": "FastEthernet2/0",
@@ -1613,6 +1601,18 @@
                         "adapter_number": 2,
                         "id": 956,
                         "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 957,
+                        "name": "FastEthernet1/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 958,
+                        "name": "FastEthernet1/1",
                         "port_number": 1
                     },
                     {
@@ -1703,24 +1703,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "description": "connected to Porto on port FastEthernet0/0",
-                        "id": 516,
-                        "link_id": 9,
-                        "name": "FastEthernet1/0",
-                        "nio": "NIO_UDP",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "description": "connected to netL1 on port 1",
-                        "id": 517,
-                        "link_id": 4,
-                        "name": "FastEthernet1/1",
-                        "nio": "NIO_UDP",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "description": "connected to netL2 on port 1",
                         "id": 520,
@@ -1735,6 +1717,24 @@
                         "id": 521,
                         "link_id": 27,
                         "name": "FastEthernet2/1",
+                        "nio": "NIO_UDP",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "description": "connected to Porto on port FastEthernet0/0",
+                        "id": 516,
+                        "link_id": 9,
+                        "name": "FastEthernet1/0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "description": "connected to netL1 on port 1",
+                        "id": 517,
+                        "link_id": 4,
+                        "name": "FastEthernet1/1",
                         "nio": "NIO_UDP",
                         "port_number": 1
                     },
@@ -1798,7 +1798,7 @@
                 "server_id": 1,
                 "type": "C7200",
                 "vm_id": "5af12cc6-0d22-464e-9441-e3a6c660fc45",
-                "x": -354.2985565973347,
+                "x": -355.7127701597078,
                 "y": -167.46803743153544
             },
             {
@@ -1826,6 +1826,18 @@
                         "port_number": 1
                     },
                     {
+                        "adapter_number": 2,
+                        "id": 528,
+                        "name": "FastEthernet2/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "id": 529,
+                        "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
                         "adapter_number": 1,
                         "description": "connected to netS1 on port 1",
                         "id": 524,
@@ -1838,18 +1850,6 @@
                         "adapter_number": 1,
                         "id": 525,
                         "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 528,
-                        "name": "FastEthernet2/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 529,
-                        "name": "FastEthernet2/1",
                         "port_number": 1
                     },
                     {
@@ -1940,6 +1940,18 @@
                         "port_number": 1
                     },
                     {
+                        "adapter_number": 2,
+                        "id": 544,
+                        "name": "FastEthernet2/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "id": 545,
+                        "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
                         "adapter_number": 1,
                         "description": "connected to EmpC on port FastEthernet0/0",
                         "id": 540,
@@ -1952,18 +1964,6 @@
                         "adapter_number": 1,
                         "id": 541,
                         "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 544,
-                        "name": "FastEthernet2/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 545,
-                        "name": "FastEthernet2/1",
                         "port_number": 1
                     },
                     {
@@ -2054,6 +2054,21 @@
                         "port_number": 1
                     },
                     {
+                        "adapter_number": 2,
+                        "description": "connected to Oeiras on port FastEthernet1/0",
+                        "id": 560,
+                        "link_id": 17,
+                        "name": "FastEthernet2/0",
+                        "nio": "NIO_UDP",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "id": 561,
+                        "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
                         "adapter_number": 1,
                         "description": "connected to netX1 on port 1",
                         "id": 556,
@@ -2069,21 +2084,6 @@
                         "link_id": 12,
                         "name": "FastEthernet1/1",
                         "nio": "NIO_UDP",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 2,
-                        "description": "connected to Oeiras on port FastEthernet1/0",
-                        "id": 560,
-                        "link_id": 17,
-                        "name": "FastEthernet2/0",
-                        "nio": "NIO_UDP",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 561,
-                        "name": "FastEthernet2/1",
                         "port_number": 1
                     },
                     {
@@ -2174,18 +2174,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "id": 548,
-                        "name": "FastEthernet1/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "id": 549,
-                        "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "id": 552,
                         "name": "FastEthernet2/0",
@@ -2195,6 +2183,18 @@
                         "adapter_number": 2,
                         "id": 553,
                         "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 548,
+                        "name": "FastEthernet1/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 549,
+                        "name": "FastEthernet1/1",
                         "port_number": 1
                     },
                     {
@@ -2285,6 +2285,18 @@
                         "port_number": 1
                     },
                     {
+                        "adapter_number": 2,
+                        "id": 536,
+                        "name": "FastEthernet2/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "id": 537,
+                        "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
                         "adapter_number": 1,
                         "description": "connected to Ethernetcore on port 3",
                         "id": 532,
@@ -2297,18 +2309,6 @@
                         "adapter_number": 1,
                         "id": 533,
                         "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 536,
-                        "name": "FastEthernet2/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 537,
-                        "name": "FastEthernet2/1",
                         "port_number": 1
                     },
                     {
@@ -2399,6 +2399,18 @@
                         "port_number": 1
                     },
                     {
+                        "adapter_number": 2,
+                        "id": 568,
+                        "name": "FastEthernet2/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 2,
+                        "id": 569,
+                        "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
                         "adapter_number": 1,
                         "description": "connected to Lisboa on port FastEthernet2/0",
                         "id": 564,
@@ -2411,18 +2423,6 @@
                         "adapter_number": 1,
                         "id": 565,
                         "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 568,
-                        "name": "FastEthernet2/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 2,
-                        "id": 569,
-                        "name": "FastEthernet2/1",
                         "port_number": 1
                     },
                     {
@@ -2513,18 +2513,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "id": 572,
-                        "name": "FastEthernet1/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "id": 573,
-                        "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "id": 576,
                         "name": "FastEthernet2/0",
@@ -2534,6 +2522,18 @@
                         "adapter_number": 2,
                         "id": 577,
                         "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 572,
+                        "name": "FastEthernet1/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 573,
+                        "name": "FastEthernet1/1",
                         "port_number": 1
                     },
                     {
@@ -2624,18 +2624,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "id": 580,
-                        "name": "FastEthernet1/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "id": 581,
-                        "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "id": 584,
                         "name": "FastEthernet2/0",
@@ -2645,6 +2633,18 @@
                         "adapter_number": 2,
                         "id": 585,
                         "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 580,
+                        "name": "FastEthernet1/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 581,
+                        "name": "FastEthernet1/1",
                         "port_number": 1
                     },
                     {
@@ -2735,18 +2735,6 @@
                         "port_number": 1
                     },
                     {
-                        "adapter_number": 1,
-                        "id": 596,
-                        "name": "FastEthernet1/0",
-                        "port_number": 0
-                    },
-                    {
-                        "adapter_number": 1,
-                        "id": 597,
-                        "name": "FastEthernet1/1",
-                        "port_number": 1
-                    },
-                    {
                         "adapter_number": 2,
                         "id": 600,
                         "name": "FastEthernet2/0",
@@ -2756,6 +2744,18 @@
                         "adapter_number": 2,
                         "id": 601,
                         "name": "FastEthernet2/1",
+                        "port_number": 1
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 596,
+                        "name": "FastEthernet1/0",
+                        "port_number": 0
+                    },
+                    {
+                        "adapter_number": 1,
+                        "id": 597,
+                        "name": "FastEthernet1/1",
                         "port_number": 1
                     },
                     {
