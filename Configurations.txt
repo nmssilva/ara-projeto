@@ -186,7 +186,7 @@ router bgp 9000
 address-family ipv4 unicast
 neighbor 4.20.20.1 route-map routes-out out
 address-family ipv6 unicast
-neighbor 2001:420:4::5 route-map routes-out out
+neighbor 2001:420:0::1 route-map routes-out out
 end
 
 ! deny private networks
