@@ -352,14 +352,29 @@ end
 !L2&L3 traffic
 conf t
 ip prefix-list PL-L2-TRAFFIC seq 10 permit 200.200.1.0/24
-route-map RM-L2-TRAFFIC permit 10
+ip access-list standard ACL-PERMIT-ALL
+100 permit any
+!Oeiras
+route-map RM-L2-TRAFFIC-O permit 10
 match ip address prefix-list PL-L2-TRAFFIC
 set local-preference 400
+route-map RM-L2-TRAFFIC-O permit 20
+match ip address ACL-PERMIT-ALL
+set local-preference 200
 exit
+!Aveiro
+route-map RM-L2-TRAFFIC-A permit 10
+match ip address prefix-list PL-L2-TRAFFIC
+set local-preference 200
+route-map RM-L2-TRAFFIC-A permit 20
+match ip address ACL-PERMIT-ALL
+set local-preference 200
+exit
+
 router bgp 9000
 address-family ipv4 unicast
-neighbor 10.0.32.5 route-map RM-L2-TRAFFIC out
-neighbor 10.0.32.4 route-map RM-L2-TRAFFIC out
+neighbor 10.0.32.5 route-map RM-L2-TRAFFIC-O out
+neighbor 10.0.32.4 route-map RM-L2-TRAFFIC-A out
 end
 
 !Deny default routes
@@ -803,7 +818,7 @@ end
 conf t
 access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 80
 access-list 102 permit tcp 130.1.1.0 0.0.0.127 130.1.1.128 0.0.0.127 eq 443
-access-list 101 permit ip 130.1.1.0 0.0.0.63 any
+access-list 101 permit ip 130.1.1.0 0.0.0.63 192.172.1.0 0.0.0.255
 
 route-map RM-TUNNEL-TRAFFIC permit 10
 match ip address 102
